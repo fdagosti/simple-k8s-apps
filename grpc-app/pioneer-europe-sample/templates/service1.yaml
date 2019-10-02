@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-client
+spec:
+  selector:
+    matchLabels:
+      app: grpc-client
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grpc-client
+        env: development
+    spec:
+      containers:
+      - name: client
+        image: grpc-client
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-client-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3500
+    targetPort: 8080
+    protocol: "TCP"
+  selector:
+    app: grpc-client
