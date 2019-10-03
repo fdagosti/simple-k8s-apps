@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: go-logger
+spec:
+  containers:
+  - name: go-logger
+    image: go-logger
+    imagePullPolicy: Never
